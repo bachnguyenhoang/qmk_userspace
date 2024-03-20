@@ -1,0 +1,9 @@
+VIA_ENABLE = yes
+MOUSEKEY_ENABLE = no       # Mouse keys
+OLED_ENABLE = yes
+WPM_ENABLE = yes
+
+# oled config
+OLED_DRIVER = ssd1306
+OLED_TRANSPORT = i2c
+OLED_TIMEOUT = 30000

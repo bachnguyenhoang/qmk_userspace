@@ -1,6 +1,7 @@
 {
     "userspace_version": "1.0",
     "build_targets": [
-        ["gmmk/pro/rev1/ansi", "bach"]
+        ["gmmk/pro/rev1/ansi", "bach"],
+        ["peej/lumberjack", "bach"]
     ]
 }
