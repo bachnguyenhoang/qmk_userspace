@@ -92,34 +92,43 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 };
 // clang-format on
 
-#if defined(ENCODER_MAP_ENABLE)
+#ifdef ENCODER_MAP_ENABLE
 const uint16_t PROGMEM encoder_map[][NUM_ENCODERS][NUM_DIRECTIONS] = {
     [_DEFAULT] = { ENCODER_CCW_CW(KC_VOLD, KC_VOLU) },
     [_FN] = { ENCODER_CCW_CW(KC_TRNS, KC_TRNS) },
     [_CAPS] = { ENCODER_CCW_CW(KC_WH_U, KC_WH_D) },
     [_VIA] = { ENCODER_CCW_CW(KC_TRNS, KC_TRNS) }
 };
-#endif
 
-#ifdef ENCODER_ENABLE
-bool encoder_update_user(uint8_t index, bool clockwise) {
-    if (get_mods() & (MOD_MASK_CTRL | MOD_MASK_ALT)) {
-        if (clockwise) {
-            tap_code(KC_TAB);
-        } else {
-            tap_code16(S(KC_TAB));
+bool process_record_user(uint16_t keycode, keyrecord_t *record)
+{
+    switch (keycode)
+    {
+    case KC_VOLD:
+    case KC_VOLU:
+    {
+        if (record->event.pressed)
+        {
+            if (get_mods() & (MOD_MASK_CTRL | MOD_MASK_ALT))
+            {
+                if (keycode == KC_VOLD)
+                    tap_code16(S(KC_TAB));
+                else
+                    tap_code(KC_TAB);
+            }
+            else
+            {
+                tap_code(keycode);
+            }
         }
+        return false;
     }
-    if (get_mods() & (MOD_MASK_CTRL | MOD_MASK_ALT)) {
-        if (clockwise) {
-            tap_code(KC_TAB);
-        } else {
-            tap_code16(S(KC_TAB));
-        }
+    default:
+        return true;
     }
-    return false;
+    return true;
 }
-#endif // ENCODER_ENABLE
+#endif // ENCODER_MAP_ENABLE
 
 #ifdef RGB_MATRIX_ENABLE
 bool rgb_matrix_indicators_user(void) {
